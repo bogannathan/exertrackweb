@@ -72,46 +72,49 @@ $(function(){
 
 		//login method
 		login: function(){
-			// login variables
-			let username = $(li_username).val()
-			let password = $(li_password).val()
-			user = {user: 
-				{
-					username: username,
-					password: password
+			if ($(li_username).val() != "" || $(li_username).val() != "") {
+				alert("Please fill out all fields")
+			} else {
+				let username = $(li_username).val()
+				let password = $(li_password).val()
+				user = {user: 
+					{
+						username: username,
+						password: password
+					}
 				}
+				//login POST
+				let login = $.ajax({
+					type: "POST",
+					url: WorkoutLog.API_BASE + "login",
+					data: JSON.stringify(user),
+					contentType: "application/json"
+				})
+				login
+				.done(function(data) {
+					if (data.sessionToken) {
+						WorkoutLog.setAuthHeader(data.sessionToken)
+						WorkoutLog.definition.fetchAll()
+						WorkoutLog.log.fetchAll()
+					}
+					user = data.user
+					WorkoutLog.makeNavBar()
+					$(loginModal).modal('hide')
+					$(loginout).text('Logout')
+					$('.invisible').removeClass('invisible') 	
+					localStorage.setItem('profile', JSON.stringify(data.user));
+					$('a[href="#home"]').tab('show')
+					$('loginPage').tab('hide')
+					document.getElementById("home").className = "tab-pane active"
+					$(homeNav).click()
+					WorkoutLog.profileInformation(data.user)
+					alert("You have successfully logged in!")
+					window.location.reload(true)
+				})
+				.fail(function() {
+					$(li_error).text("There was an issue with log in").show()
+				})
 			}
-			//login POST
-			let login = $.ajax({
-				type: "POST",
-				url: WorkoutLog.API_BASE + "login",
-				data: JSON.stringify(user),
-				contentType: "application/json"
-			})
-			login
-			.done(function(data) {
-				if (data.sessionToken) {
-					WorkoutLog.setAuthHeader(data.sessionToken)
-					WorkoutLog.definition.fetchAll()
-					WorkoutLog.log.fetchAll()
-				}
-				user = data.user
-				WorkoutLog.makeNavBar()
-				$(loginModal).modal('hide')
-				$(loginout).text('Logout')
-				$('.invisible').removeClass('invisible') 	
-				localStorage.setItem('profile', JSON.stringify(data.user));
-				$('a[href="#home"]').tab('show')
-				$('loginPage').tab('hide')
-				document.getElementById("home").className = "tab-pane active"
-				$(homeNav).click()
-				WorkoutLog.profileInformation(data.user)
-				alert("You have successfully logged in!")
-				window.location.reload(true)
-			})
-			.fail(function() {
-				$(li_error).text("There was an issue with log in").show()
-			})
 		},
 
 		makeNavBar: function() {
