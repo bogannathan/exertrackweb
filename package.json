@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./node_modules/http-server/bin/http-server",
-    "postinstall": "bower install"
+    "postinstall": "./node_modules/bower/bin/bower install"
   },
   "author": "Nathan Bogan",
   "license": "MIT",
