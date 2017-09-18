@@ -102,9 +102,9 @@ $(function(){
 					$(loginModal).modal('hide')
 					$(loginout).text('Logout')
 					$('.invisible').removeClass('invisible') 	
+					$('loginPage').className('invisible')
 					localStorage.setItem('profile', JSON.stringify(data.user));
 					$('a[href="#home"]').tab('show')
-					$('loginPage').tab('hide')
 					document.getElementById("home").className = "tab-pane active"
 					$(homeNav).click()
 					WorkoutLog.profileInformation(data.user)
@@ -154,7 +154,7 @@ $(function(){
 		},
 		updateProfile: function() {
 			if ($(update_password).val() == $(update_confirmpassword).val()) {
-				if (($(update_username).val() != "" && $(update_confirmpassword).val() != "" && $(update_password).val() != "" && $(update_fullname).val() != "" && $(update_summary).val() != "" && $(update_age).val() != "" && $(update_gender).val() != "" && typeof($(update_age)) == integer)) {
+				if (($(update_username).val() != "" && $(update_confirmpassword).val() != "" && $(update_password).val() != "" && $(update_fullname).val() != "" && $(update_summary).val() != "" && $(update_age).val() != "" && $(update_gender).val() != "")) {
 					let username = $(update_username).val()
 					let password = $(update_password).val()
 					let fullname = $(update_fullname).val()
@@ -231,10 +231,4 @@ $(function(){
 	        WorkoutLog.loginout()
 	    }
 	}
-	// if (!window.localStorage.getItem('sessionToken')) {
-	// 	document.getElementById('loginPage').className = 'tab-pane active'
-	// 	document.getElementById('listLoginout').className = 'active'
-	// 	window.localStorage.clear()
-	// }
-
 })
