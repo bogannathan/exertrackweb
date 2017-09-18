@@ -72,7 +72,7 @@ $(function(){
 
 		//login method
 		login: function(){
-			if ($(li_username).val() != "" || $(li_username).val() != "") {
+			if ($(li_username).val() == "" || $(li_username).val() == "") {
 				alert("Please fill out all fields")
 			} else {
 				let username = $(li_username).val()
